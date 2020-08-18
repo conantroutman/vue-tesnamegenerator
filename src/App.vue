@@ -51,7 +51,7 @@ export default {
       gender: 'male',
       isReady: false,
       toggleSurname: true,
-      hasSurname: true,
+      hasSurname: false,
       numberToGenerate: 1,
     }
   },
@@ -59,7 +59,6 @@ export default {
     loadJson() {
       this.json = require(`./names/${this.race}.json`);
       this.hasSurname = this.json.hasSurname;
-      //return json;
     },
     
     generateName() {
@@ -68,9 +67,6 @@ export default {
 
       // Load the JSON file containing the names
       const list = this.json;
-
-      // Hide toggle family name button if the selected race does not have family names
-      //this.hasSurname = names.hasSurname;
 
       for(let i = 0; i < this.numberToGenerate; i++) {
         let name = '';
@@ -162,7 +158,7 @@ export default {
     getArgonianName(list) {
       const isHyphenated = (Math.round(Math.random() * 1) ? true : false);
       let name = this.getRandomName(this.gender === 'male' ? list.male : list.female);
-      if (isHyphenated || name.length < 3) name += `-${this.getRandomName(this.gender === 'male' ? list.male : list.female)}`
+      if (isHyphenated || name.length <= 3) name += `-${this.getRandomName(this.gender === 'male' ? list.male : list.female)}`
 
       return name;
     }

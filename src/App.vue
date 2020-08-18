@@ -31,7 +31,7 @@
     <button v-on:click="generateName()">Generate</button>
     <ul class="results" >
       <li v-for="item in generatedNames" v-bind:key="item.id">
-        {{ item }}
+        {{ item | capitalize }}
       </li>
     </ul>
   </div>
@@ -117,8 +117,12 @@ export default {
 
     // Returns a Khajiit name with added prefix/suffix. Might want to make the prefix/suffix generation input based rather than rng based in the future.
     getKhajiitName(list) {
+
+      // Males are more likely to have an honorific title according to UESP
       const chanceTitle = (this.gender === 'male' ? 0.5 : 0.15);
+      // Prefixes are more common than suffixes
       const prefixBias = 0.75;
+
       const prefixesM = ["Dar", "Do", "Dro", "J", "Jo", "M", "R", "Ri", "S"]
       const prefixesF = ["Daro", "Do", "Dra", "L", "Ko", "M", "R", "Ri", "S"]
       const suffixesM = ["dar", "do", "dro", "ja", "jo", "ma", "ra", "ri", "sa"]
@@ -128,7 +132,7 @@ export default {
 
       if ((Math.random() * 1) <= chanceTitle) {
         const isPrefix = ((Math.random() * 1) <= prefixBias ? true : false);
-        console.log(isPrefix)
+
         if (isPrefix) {
           const prefix = (this.gender === 'male' ? this.getRandomName(prefixesM) : this.getRandomName(prefixesF));
           name = `${prefix}'${name.toLowerCase()}`;
@@ -137,15 +141,18 @@ export default {
           name = `${name}-${suffix}`;
         }
       }
+
       return name;
     }
   },
-  computed: {
-
-  },
-  watch: {
-
+  filters: {
+    // Auto capitalize the first letter. Shamelessly stolen from Vue.js documentation.
+    capitalize: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
   }
+}
 }
 </script>
 

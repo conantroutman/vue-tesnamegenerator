@@ -2,7 +2,7 @@
   <div id="app">
     <h1>TES Random Name Generator</h1>
     <label for="raceSelect">Select Race:</label>
-    <select name="raceSelect" id="raceSelect" v-model="race">
+    <select name="raceSelect" id="raceSelect" v-model="race" @change="loadJson()">
       <option value="argonian">Argonian</option>
       <option value="breton">Breton</option>
       <option value="dunmer">Dark Elf</option>
@@ -46,6 +46,7 @@ export default {
   data: () => {
     return {
       generatedNames: [],
+      json: {},
       race: 'argonian',
       gender: 'male',
       isReady: false,
@@ -55,12 +56,18 @@ export default {
     }
   },
   methods: {
+    loadJson() {
+      this.json = require(`./names/${this.race}.json`);
+      this.hasSurname = this.json.hasSurname;
+      //return json;
+    },
+    
     generateName() {
       // Reset the array of names so that a new list is generated each time
       this.generatedNames = [];
 
       // Load the JSON file containing the names
-      const list = require(`./names/${this.race}.json`);
+      const list = this.json;
 
       // Hide toggle family name button if the selected race does not have family names
       //this.hasSurname = names.hasSurname;
@@ -80,7 +87,7 @@ export default {
         }
 
         let surname = '';
-        if(this.toggleSurname) {
+        if(this.hasSurname && this.toggleSurname) {
           switch(this.race) {
             // Orc family name is based on the parent's name & gender based
             case 'orc':
@@ -129,10 +136,10 @@ export default {
       // Prefixes are more common than suffixes
       const prefixBias = 0.75;
 
-      const prefixesM = ["Dar", "Do", "Dro", "J", "Jo", "M", "R", "Ri", "S"]
-      const prefixesF = ["Daro", "Do", "Dra", "L", "Ko", "M", "R", "Ri", "S"]
-      const suffixesM = ["dar", "do", "dro", "ja", "jo", "ma", "ra", "ri", "sa"]
-      const suffixesF = ["daro", "do", "dra", "la", "ko", "ma", "ra", "ri", "sa"]
+      const prefixesM = ["Dar", "Do", "Dro", "J", "Jo", "M", "R", "Ri", "S"];
+      const prefixesF = ["Daro", "Do", "Dra", "L", "Ko", "M", "R", "Ri", "S"];
+      const suffixesM = ["dar", "do", "dro", "ja", "jo", "ma", "ra", "ri", "sa"];
+      const suffixesF = ["daro", "do", "dra", "la", "ko", "ma", "ra", "ri", "sa"];
 
       let name = this.getRandomName(this.gender === 'male' ? list.male : list.female);
 

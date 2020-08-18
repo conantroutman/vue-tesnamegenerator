@@ -6,6 +6,7 @@
       <option value="argonian">Argonian</option>
       <option value="breton">Breton</option>
       <option value="dunmer">Dark Elf</option>
+      <option value="ashlander">Dark Elf (Ashlander)</option>
       <option value="altmer">High Elf</option>
       <option value="imperial">Imperial</option>
       <option value="khajiit">Khajiit</option>
@@ -47,7 +48,7 @@ export default {
     return {
       generatedNames: [],
       json: {},
-      race: 'argonian',
+      race: '',
       gender: 'male',
       isReady: false,
       toggleSurname: true,
@@ -77,6 +78,9 @@ export default {
           case 'argonian':
             name = this.getArgonianName(list);
             break;
+          case 'ashlander':
+            name = this.getAshlanderName(list, false)
+            break;
           default:
             name = this.getRandomName(this.gender == 'male' ? list.male : list.female)
             break;
@@ -92,6 +96,9 @@ export default {
             // Redguard family names can be based on relatives or birthplace
             case 'redguard':
               surname = this.getRedguardSurname(list);
+              break;
+            case 'ashlander':
+              surname = this.getAshlanderName(list, true);
               break;
             default:
               surname = this.getRandomName(list.surnames)
@@ -159,6 +166,15 @@ export default {
       const isHyphenated = (Math.round(Math.random() * 1) ? true : false);
       let name = this.getRandomName(this.gender === 'male' ? list.male : list.female);
       if (isHyphenated || name.length <= 3) name += `-${this.getRandomName(this.gender === 'male' ? list.male : list.female)}`
+
+      return name;
+    },
+
+    getAshlanderName(list, isSurname) {
+      const isHyphenated = (Math.round(Math.random() * 1) ? true : false);
+      const nameList = (!isSurname ? (this.gender === 'male' ? list.male : list.female) : list.surnames)
+      let name = this.getRandomName(nameList);
+      if (!isSurname ? isHyphenated : isHyphenated && name.length < 8) name += `-${this.getRandomName(nameList)}`
 
       return name;
     }

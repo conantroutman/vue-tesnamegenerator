@@ -21,8 +21,18 @@
       <label for="toggleSurname">Generate Family Name:</label>
       <input type="checkbox" id="toggleSurname" v-model="toggleSurname">
     </span>
+    <select name="number" id="number" v-model="numberToGenerate">
+      <option value="1">1</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+    </select>
     <button v-on:click="generateName()">Generate</button>
-    <h2 id="name">{{ fullName }}</h2>
+    <ul class="results" >
+      <li v-for="item in generatedNames" v-bind:key="item.id">
+        {{ item }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -34,37 +44,43 @@ export default {
   },
   data: () => {
     return {
-      fullName: '',
+      generatedNames: [],
       race: 'argonian',
       gender: 'male',
       isReady: false,
       toggleSurname: true,
-      hasSurname: true
+      hasSurname: true,
+      numberToGenerate: 1,
     }
   },
   methods: {
     generateName() {
+      document.querySelector(".results").innerHTML = '';
       const names = require(`./names/${this.race}.json`);
       // Hide toggle family name button if the selected race does not have family names
-      this.toggleSurname = names.hasSurname;
-      const name = this.getRandomName(this.gender == 'male' ? names.male : names.female);
-      let surname = '';
-      if(this.toggleSurname) {
-        switch(this.race) {
-          // Orc family name is based on the parent's name & gender based
-          case 'orc':
-            surname = this.getOrcSurname(names);
-            break;
-          // Redguard family names can be based on relatives or birthplace
-          case 'redguard':
-            surname = this.getRedguardSurname(names);
-            break;
-          default:
-            surname = this.getRandomName(names.surnames)
-            break;
+      //this.hasSurname = names.hasSurname;
+      for(let i = 0; i < this.numberToGenerate; i++) {
+        console.log("Generating" + i);
+        let name = this.getRandomName(this.gender == 'male' ? names.male : names.female);
+        let surname = '';
+        if(this.toggleSurname) {
+          switch(this.race) {
+            // Orc family name is based on the parent's name & gender based
+            case 'orc':
+              surname = this.getOrcSurname(names);
+              break;
+            // Redguard family names can be based on relatives or birthplace
+            case 'redguard':
+              surname = this.getRedguardSurname(names);
+              break;
+            default:
+              surname = this.getRandomName(names.surnames)
+              break;
+          }
         }
+        //this.fullName = `${name} ${surname}`;
+        this.generatedNames.push(`${name} ${surname}`);
       }
-      this.fullName = `${name} ${surname}`;
     },
 
     getRandomName(array) {
@@ -102,5 +118,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.results {
+  list-style: none;
+  font-size: 1.75rem;
+}
+
+.results li {
+  margin-bottom: .25rem;
 }
 </style>

@@ -67,10 +67,16 @@ export default {
 
       for(let i = 0; i < this.numberToGenerate; i++) {
         let name = '';
-        if (this.race === 'khajiit') {
-          name = this.getKhajiitName(list);
-        } else {
-          name = this.getRandomName(this.gender == 'male' ? list.male : list.female)
+        switch(this.race) {
+          case 'khajiit':
+            name = this.getKhajiitName(list);
+            break;
+          case 'argonian':
+            name = this.getArgonianName(list);
+            break;
+          default:
+            name = this.getRandomName(this.gender == 'male' ? list.male : list.female)
+            break;
         }
 
         let surname = '';
@@ -143,14 +149,23 @@ export default {
       }
 
       return name;
+    },
+
+    // Returns an Argonian name. 50% chance the name is hyphenated.
+    getArgonianName(list) {
+      const isHyphenated = (Math.round(Math.random() * 1) ? true : false);
+      let name = this.getRandomName(this.gender === 'male' ? list.male : list.female);
+      if (isHyphenated || name.length < 3) name += `-${this.getRandomName(this.gender === 'male' ? list.male : list.female)}`
+
+      return name;
     }
   },
   filters: {
     // Auto capitalize the first letter. Shamelessly stolen from Vue.js documentation.
     capitalize: function (value) {
-      if (!value) return ''
-      value = value.toString()
-      return value.charAt(0).toUpperCase() + value.slice(1)
+      if (!value) return '';
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
   }
 }
 }

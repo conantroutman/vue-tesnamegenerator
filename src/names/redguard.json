@@ -1,0 +1,49 @@
+{
+    "hasSurname": true,
+    "male": [
+        "Birger"
+    ],
+    "female": [
+        "Britta"
+    ],
+
+    "birthplaces": [
+        "Elinhir",
+        "Gilane",
+        "Hegathe",
+        "Rihad",
+        "Sentinel",
+        "Skaven",
+        "Stros",
+        "Taneth",
+        "Bergama",
+        "Satakalaam",
+        "Kozanset",
+        "Ragath",
+        "Akir",
+        "Antiphyllos",
+        "Azif",
+        "Belkarth",
+        "Gelassa",
+        "Hallin",
+        "Hareem",
+        "Masri",
+        "Miran",
+        "Morwha",
+        "Myrkwasa",
+        "Natedan",
+        "Ojwambu",
+        "Tahud",
+        "Tava",
+        "Heldorn",
+        "Lainebon",
+        "Rosgard",
+        "Verkarth",
+        "Oulnim",
+        "Drear",
+        "Herne",
+        "Cespar",
+        "Lainlyn",
+        "Helland"
+    ]
+}

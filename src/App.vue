@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>TES Random Name Generator</h1>
     <label for="raceSelect">Select Race:</label>
     <select name="raceSelect" id="raceSelect" v-model="race">
       <option value="argonian">Argonian</option>
@@ -55,26 +56,36 @@ export default {
   },
   methods: {
     generateName() {
-      document.querySelector(".results").innerHTML = '';
-      const names = require(`./names/${this.race}.json`);
+      // Reset the array of names so that a new list is generated each time
+      this.generatedNames = [];
+
+      // Load the JSON file containing the names
+      const list = require(`./names/${this.race}.json`);
+
       // Hide toggle family name button if the selected race does not have family names
       //this.hasSurname = names.hasSurname;
+
       for(let i = 0; i < this.numberToGenerate; i++) {
-        console.log("Generating" + i);
-        let name = this.getRandomName(this.gender == 'male' ? names.male : names.female);
+        let name = '';
+        if (this.race === 'khajiit') {
+          name = this.getKhajiitName(list);
+        } else {
+          name = this.getRandomName(this.gender == 'male' ? list.male : list.female)
+        }
+
         let surname = '';
         if(this.toggleSurname) {
           switch(this.race) {
             // Orc family name is based on the parent's name & gender based
             case 'orc':
-              surname = this.getOrcSurname(names);
+              surname = this.getOrcSurname(list);
               break;
             // Redguard family names can be based on relatives or birthplace
             case 'redguard':
-              surname = this.getRedguardSurname(names);
+              surname = this.getRedguardSurname(list);
               break;
             default:
-              surname = this.getRandomName(names.surnames)
+              surname = this.getRandomName(list.surnames)
               break;
           }
         }
@@ -83,22 +94,50 @@ export default {
       }
     },
 
+    // Grabs a random array element and returns it
     getRandomName(array) {
       const random = Math.floor(Math.random() * array.length);
       return array[random];
     },
 
+    // Returns an Orcish family name
     getOrcSurname(names) {
       const prefix = (this.gender == 'male' ? "gro-" : "gra-");
       return `${prefix}${this.getRandomName(this.gender == 'male' ? names.male : names.female)}`;
     },
 
+    // Returns a Redguard family nmame
     getRedguardSurname(names) {
       const prefixes = ["at", "af", "al"];
       const random = Math.floor(Math.random() * prefixes.length);
       // 2 equals name based on birthplace
       const suffix = this.getRandomName(random === 2 ? names.birthplaces : names.male.concat(names.female));
       return `${prefixes[random]}-${suffix}`;
+    },
+
+    // Returns a Khajiit name with added prefix/suffix. Might want to make the prefix/suffix generation input based rather than rng based in the future.
+    getKhajiitName(list) {
+      const chanceTitle = (this.gender === 'male' ? 0.5 : 0.15);
+      const prefixBias = 0.75;
+      const prefixesM = ["Dar", "Do", "Dro", "J", "Jo", "M", "R", "Ri", "S"]
+      const prefixesF = ["Daro", "Do", "Dra", "L", "Ko", "M", "R", "Ri", "S"]
+      const suffixesM = ["dar", "do", "dro", "ja", "jo", "ma", "ra", "ri", "sa"]
+      const suffixesF = ["daro", "do", "dra", "la", "ko", "ma", "ra", "ri", "sa"]
+
+      let name = this.getRandomName(this.gender === 'male' ? list.male : list.female);
+
+      if ((Math.random() * 1) <= chanceTitle) {
+        const isPrefix = ((Math.random() * 1) <= prefixBias ? true : false);
+        console.log(isPrefix)
+        if (isPrefix) {
+          const prefix = (this.gender === 'male' ? this.getRandomName(prefixesM) : this.getRandomName(prefixesF));
+          name = `${prefix}'${name.toLowerCase()}`;
+        } else {
+          const suffix = (this.gender === 'male' ? this.getRandomName(suffixesM) : this.getRandomName(suffixesF));
+          name = `${name}-${suffix}`;
+        }
+      }
+      return name;
     }
   },
   computed: {

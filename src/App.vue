@@ -168,10 +168,10 @@ export default {
         const isPrefix = ((Math.random() * 1) <= prefixBias ? true : false);
 
         if (isPrefix) {
-          const prefix = (this.gender === 'male' ? this.getRandomName(titlesM.prefix) : this.getRandomName(titlesF.prefix));
+          const prefix = (this.gender === 'male' ? this.getRandomName(titlesM).prefix : this.getRandomName(titlesF).prefix);
           name = `${prefix}'${name.toLowerCase()}`;
         } else {
-          const suffix = (this.gender === 'male' ? this.getRandomName(titlesM.suffix) : this.getRandomName(titlesF.suffix));
+          const suffix = (this.gender === 'male' ? this.getRandomName(titlesM).suffix : this.getRandomName(titlesF).suffix);
           name = `${name}-${suffix}`;
         }
       }

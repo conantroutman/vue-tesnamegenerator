@@ -139,10 +139,28 @@ export default {
       // Prefixes are more common than suffixes
       const prefixBias = 0.75;
 
-      const prefixesM = ["Dar", "Do", "Dro", "J", "Jo", "M", "R", "Ri", "S"];
-      const prefixesF = ["Daro", "Do", "Dra", "L", "Ko", "M", "R", "Ri", "S"];
-      const suffixesM = ["dar", "do", "dro", "ja", "jo", "ma", "ra", "ri", "sa"];
-      const suffixesF = ["daro", "do", "dra", "la", "ko", "ma", "ra", "ri", "sa"];
+      const titlesM = [
+        { prefix:'Dar',    suffix:'dar' },
+        { prefix:'Do',    suffix:'do' },
+        { prefix:'Dro',    suffix:'dro' },
+        { prefix:'J',    suffix:'ja' },
+        { prefix:'Jo',    suffix:'jo' },
+        { prefix:'M',    suffix:'ma' },
+        { prefix:'R',    suffix:'ra' },
+        { prefix:'Ri',    suffix:'ri' },
+        { prefix:'S',    suffix:'sa' },
+      ]
+      const titlesF = [
+        { prefix:'Daro',    suffix:'daro' },
+        { prefix:'Do',    suffix:'do' },
+        { prefix:'Dra',    suffix:'dra' },
+        { prefix:'L',    suffix:'la' },
+        { prefix:'Ko',    suffix:'ko' },
+        { prefix:'M',    suffix:'ma' },
+        { prefix:'R',    suffix:'ra' },
+        { prefix:'Ri',    suffix:'ri' },
+        { prefix:'S',    suffix:'sa' },
+      ]
 
       let name = this.getRandomName(this.gender === 'male' ? list.male : list.female);
 
@@ -150,10 +168,10 @@ export default {
         const isPrefix = ((Math.random() * 1) <= prefixBias ? true : false);
 
         if (isPrefix) {
-          const prefix = (this.gender === 'male' ? this.getRandomName(prefixesM) : this.getRandomName(prefixesF));
+          const prefix = (this.gender === 'male' ? this.getRandomName(titlesM.prefix) : this.getRandomName(titlesF.prefix));
           name = `${prefix}'${name.toLowerCase()}`;
         } else {
-          const suffix = (this.gender === 'male' ? this.getRandomName(suffixesM) : this.getRandomName(suffixesF));
+          const suffix = (this.gender === 'male' ? this.getRandomName(titlesM.suffix) : this.getRandomName(titlesF.suffix));
           name = `${name}-${suffix}`;
         }
       }

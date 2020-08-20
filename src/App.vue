@@ -1,40 +1,44 @@
 <template>
   <div id="app">
-    <h1>TES Random Name Generator</h1>
-    <label for="raceSelect">Select Race:</label>
-    <select name="raceSelect" id="raceSelect" v-model="race" @change="loadJson()">
-      <option value="argonian">Argonian</option>
-      <option value="breton">Breton</option>
-      <option value="dunmer">Dark Elf</option>
-      <option value="ashlander">Dark Elf (Ashlander)</option>
-      <option value="altmer">High Elf</option>
-      <option value="imperial">Imperial</option>
-      <option value="khajiit">Khajiit</option>
-      <option value="nord">Nord</option>
-      <option value="orc">Orc</option>
-      <option value="redguard">Redguard</option>
-      <option value="bosmer">Wood Elf</option>
-    </select>
-    <select name="gender" id="genderSelect" v-model="gender">
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-    </select>
-    <span v-if="hasSurname">
-      <label for="toggleSurname">Generate Family Name:</label>
-      <input type="checkbox" id="toggleSurname" v-model="toggleSurname">
-    </span>
-    <select name="number" id="number" v-model="numberToGenerate">
-      <option value="1">1</option>
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-    </select>
-    <button v-on:click="generateName()">Generate</button>
-    <ul class="results" >
-      <li v-for="item in generatedNames" v-bind:key="item.id">
-        {{ item | capitalize }}
-      </li>
-    </ul>
+    <header>
+      <h1>TES Random Name Generator</h1>
+    </header>
+    <main>
+      <label for="raceSelect">Select Race:</label>
+      <select name="raceSelect" id="raceSelect" v-model="race" @change="loadJson()">
+        <option value="argonian">Argonian</option>
+        <option value="breton">Breton</option>
+        <option value="dunmer">Dark Elf</option>
+        <option value="ashlander">Dark Elf (Ashlander)</option>
+        <option value="altmer">High Elf</option>
+        <option value="imperial">Imperial</option>
+        <option value="khajiit">Khajiit</option>
+        <option value="nord">Nord</option>
+        <option value="orc">Orc</option>
+        <option value="redguard">Redguard</option>
+        <option value="bosmer">Wood Elf</option>
+      </select>
+      <select name="gender" id="genderSelect" v-model="gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <span v-if="hasSurname">
+        <label for="toggleSurname">Generate Family Name:</label>
+        <input type="checkbox" id="toggleSurname" v-model="toggleSurname">
+      </span>
+      <select name="number" id="number" v-model="numberToGenerate">
+        <option value="1">1</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+      </select>
+      <button v-on:click="generateName()">Generate</button>
+      <ul class="results" >
+        <li v-for="item in generatedNames" v-bind:key="item.id">
+          {{ item | capitalize }}
+        </li>
+      </ul>
+    </main>
   </div>
 </template>
 
@@ -100,6 +104,9 @@ export default {
             case 'ashlander':
               surname = this.getAshlanderName(list, true);
               break;
+            case 'nord':
+              surname = this.getNordSurname(list);
+              break
             default:
               surname = this.getRandomName(list.surnames)
               break;
@@ -129,6 +136,15 @@ export default {
       // 2 equals name based on birthplace
       const suffix = this.getRandomName(random === 2 ? names.birthplaces : names.male.concat(names.female));
       return `${prefixes[random]}-${suffix}`;
+    },
+
+    // Returns a Nord title or clan name. Could use some work.
+    getNordSurname(list) {
+      if (Math.round(Math.random() * 1)) {
+        return this.getRandomName(list.titles);
+      } else {
+        return `${this.getRandomName(list.clanPrefix)}-${this.getRandomName(list.clanSuffix)}`;
+      }
     },
 
     // Returns a Khajiit name with added prefix/suffix. Might want to make the prefix/suffix generation input based rather than rng based in the future.
@@ -188,6 +204,7 @@ export default {
       return name;
     },
 
+    // Returns a Dunmer Ashlander name. 50% chance the name is hyphenated. Also used for family names.
     getAshlanderName(list, isSurname) {
       const isHyphenated = (Math.round(Math.random() * 1) ? true : false);
       const nameList = (!isSurname ? (this.gender === 'male' ? list.male : list.female) : list.surnames)

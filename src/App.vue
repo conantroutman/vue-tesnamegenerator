@@ -23,7 +23,7 @@
         <option value="female">Female</option>
       </select>
       <span v-if="hasSurname">
-        <label for="toggleSurname">Generate Family Name:</label>
+        <label for="toggleSurname">Family Name:</label>
         <input type="checkbox" id="toggleSurname" v-model="toggleSurname">
       </span>
       <select name="number" id="number" v-model="numberToGenerate">

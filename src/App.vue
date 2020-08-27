@@ -1,44 +1,59 @@
 <template>
   <div id="app">
     <header>
-      <h1>TES Random Name Generator</h1>
+      <h1 class="title">TES Name Generator</h1>
+      <h2 class="headline">Generate a lore-friendly name for your Elder Scrolls character</h2>
     </header>
-    <main>
-      <label for="raceSelect">Select Race:</label>
-      <select name="raceSelect" id="raceSelect" v-model="race" @change="loadJson()">
-        <option value="argonian">Argonian</option>
-        <option value="breton">Breton</option>
-        <option value="dunmer">Dark Elf</option>
-        <option value="ashlander">Dark Elf (Ashlander)</option>
-        <option value="altmer">High Elf</option>
-        <option value="imperial">Imperial</option>
-        <option value="khajiit">Khajiit</option>
-        <option value="nord">Nord</option>
-        <option value="orc">Orc</option>
-        <option value="redguard">Redguard</option>
-        <option value="bosmer">Wood Elf</option>
-      </select>
-      <select name="gender" id="genderSelect" v-model="gender">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-      </select>
-      <span v-if="hasSurname">
-        <label for="toggleSurname">Family Name:</label>
-        <input type="checkbox" id="toggleSurname" v-model="toggleSurname">
-      </span>
-      <select name="number" id="number" v-model="numberToGenerate">
-        <option value="1">1</option>
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
-      </select>
-      <button v-on:click="generateName()">Generate</button>
-      <ul class="results" >
-        <li v-for="item in generatedNames" v-bind:key="item.id">
-          {{ item | capitalize }}
-        </li>
-      </ul>
+    <main class="content">
+      <section>
+        <div class="input-group">
+          <select name="raceSelect" id="raceSelect" v-model="race" @change="loadJson()" class="input input-left">
+            <option value="none" selected="selected" disabled>Select a Race</option>
+            <option value="argonian">Argonian</option>
+            <option value="breton">Breton</option>
+            <option value="dunmer">Dark Elf</option>
+            <option value="ashlander">Dark Elf (Ashlander)</option>
+            <option value="altmer">High Elf</option>
+            <option value="imperial">Imperial</option>
+            <option value="khajiit">Khajiit</option>
+            <option value="nord">Nord</option>
+            <option value="orc">Orc</option>
+            <option value="redguard">Redguard</option>
+            <option value="bosmer">Wood Elf</option>
+          </select>
+          <!--<select name="number" id="number" v-model="numberToGenerate" class="input">
+            <option value="1">1</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>-->
+          <button v-on:click="generateName()" class="button" :disabled="race == 'none'">Generate</button>
+        </div>
+        <div class="options-group">
+          <span>
+            <label for="selectMale">Male</label>
+            <input id="selectMale" type="radio" name="gender" v-model="gender" value="male">
+            <label for="selectFemale">Female</label>
+            <input id="selectFemale" type="radio" name="gender" v-model="gender" value="female">
+          </span>
+          <span v-if="hasSurname">
+            <label for="toggleSurname">Family Name</label>
+            <input type="checkbox" id="toggleSurname" v-model="toggleSurname">
+          </span>
+        </div>
+      </section>
+      <section>
+        <div class="results" >
+          <span v-for="item in generatedNames" v-bind:key="item.id">
+            {{ item | capitalize }}
+          </span>
+        </div>
+      </section>
     </main>
+    <footer class="footer">
+      <p>Names sourced from <a href="https://uesp.net" target="blank">UESP</a> and <a href="https://tamriel-rebuilt.org" target="blank">Tamriel Rebuilt</a></p>
+      <p>Made by John Söderberg</p>
+    </footer>
   </div>
 </template>
 
@@ -52,12 +67,12 @@ export default {
     return {
       generatedNames: [],
       json: {},
-      race: '',
+      race: 'none',
       gender: 'male',
       isReady: false,
       toggleSurname: true,
       hasSurname: false,
-      numberToGenerate: 1,
+      numberToGenerate: 1
     }
   },
   methods: {
@@ -225,21 +240,6 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-.results {
-  list-style: none;
-  font-size: 1.75rem;
-}
-
-.results li {
-  margin-bottom: .25rem;
-}
+<style lang="scss">
+  @import "./styles/main.scss";
 </style>

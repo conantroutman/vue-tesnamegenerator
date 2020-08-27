@@ -1,4 +1,6 @@
-# vue-tesnamegenerator
+# TES Name Generator
+A name generator that generates lore-friendly Elder Scrolls names. Created with Vue.js.
+https://dreamy-dubinsky-d11c5c.netlify.app/
 
 ## Project setup
 ```

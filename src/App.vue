@@ -123,6 +123,9 @@ export default {
             case 'nord':
               surname = this.getNordSurname(list);
               break
+            case 'reachman':
+              surname = this.getReachmanSurname(list);
+              break
             default:
               surname = this.getRandomName(list.surnames)
               break;
@@ -160,6 +163,14 @@ export default {
         return this.getRandomName(list.titles);
       } else {
         return `${this.getRandomName(list.clanPrefix)}-${this.getRandomName(list.clanSuffix)}`;
+      }
+    },
+
+    getReachmanSurname(list) {
+      if (Math.round(Math.random() * 1)) {
+        return `of ${this.getRandomName(list.places)}`;
+      } else {
+        return `the ${this.getRandomName(list.titlePrefixes)} ${this.getRandomName(list.titleSuffixes)}`;
       }
     },
 

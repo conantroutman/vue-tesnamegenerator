@@ -1,5 +1,5 @@
 {
-    "hasSurname": false,
+    "hasSurname": true,
     "male": [
         "Duraeg",
         "Kaenach",
@@ -118,5 +118,39 @@
         "Slaine",
         "Boadicea",
         "Luigsech"
+    ],
+    "places": [
+        "the Reach",
+        "the Western Reach",
+        "Wrothgaria",
+        "Dragon Field",
+        "the Sundered Hills",
+        "Karth",
+        "the Druadachs"
+    ],
+    "titlePrefixes": [
+        "Red",
+        "Blue",
+        "Black",
+        "White",
+        "Gray",
+        "Brown",
+        "Brave",
+        "Great",
+        "Wild"
+    ],
+    "titleSuffixes": [
+        "Eagle",
+        "Hawk",
+        "Wolf",
+        "Bear",
+        "Drake",
+        "Dragon",
+        "Adder",
+        "Snake",
+        "Skeever",
+        "Heron",
+        "Crow",
+        "Raven"
     ]
 }

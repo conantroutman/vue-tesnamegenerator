@@ -218,7 +218,25 @@
         "Zenabi",
         "Zennammu",
         "Zershishi",
-        "Ziddak"
+        "Ziddak",
+        "Adad",
+        "Nirari",
+        "Bani",
+        "Apli",
+        "Ninos",
+        "Shalmaneser",
+        "Sharru",
+        "Ukin",
+        "Shulmanu",
+        "Ashared",
+        "Sin",
+        "Ahhi",
+        "Eriba",
+        "Pileser",
+        "Tukulti",
+        "Apil",
+        "Esharra",
+        "Ninurta"
     ],
     "female": [
         "Addut",
@@ -374,7 +392,9 @@
         "Zebba",
         "Zenammi",
         "Zennammu",
-        "Zula"
+        "Zula",
+        "Semiramis",
+        "Shammuramat"
     ],
     "surnames": [
         "Ababael",

@@ -18,6 +18,7 @@
             <option value="khajiit">Khajiit</option>
             <option value="nord">Nord</option>
             <option value="orc">Orc</option>
+            <option value="reachman">Reachman</option>
             <option value="redguard">Redguard</option>
             <option value="bosmer">Wood Elf</option>
           </select>
